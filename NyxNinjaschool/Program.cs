@@ -8,11 +8,17 @@ var builder = new ConfigurationBuilder()
 
 IConfiguration config = builder.Build();
 
-int port = config.GetValue<int>("ServerConfig:Port");
-int maxPlayers = config.GetValue<int>("ServerConfig:MaxPlayers");
+// Class binding
+ServerConfig serverConfig = config.GetSection("ServerConfig").Get<ServerConfig>() ?? new ServerConfig();
 
 Console.WriteLine("========================");
-Console.WriteLine("Server Configuration");
-Console.WriteLine($"Port: {port}");
-Console.WriteLine($"Max Players: {maxPlayers}");
+Console.WriteLine("Server Configuration (Class Binding)");
+Console.WriteLine($"Port: {serverConfig.Port}");
+Console.WriteLine($"Max Players: {serverConfig.MaxPlayers}");
 Console.WriteLine("========================");
+
+public class ServerConfig
+{
+    public int Port { get; set; }
+    public int MaxPlayers { get; set; }
+}
