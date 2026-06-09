@@ -12,22 +12,7 @@ var builder = new ConfigurationBuilder()
 IConfiguration config = builder.Build();
 
 // Configure Serilog to separate logs by level
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .WriteTo.Console()
-    .WriteTo.Logger(lc => lc
-        .Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Information)
-        .WriteTo.File("logs/info/info-.txt", rollingInterval: RollingInterval.Day))
-    .WriteTo.Logger(lc => lc
-        .Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Warning)
-        .WriteTo.File("logs/warning/warning-.txt", rollingInterval: RollingInterval.Day))
-    .WriteTo.Logger(lc => lc
-        .Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Error || e.Level == LogEventLevel.Fatal)
-        .WriteTo.File("logs/error/error-.txt", rollingInterval: RollingInterval.Day))
-    .WriteTo.Logger(lc => lc
-        .Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Debug)
-        .WriteTo.File("logs/debug/debug-.txt", rollingInterval: RollingInterval.Day))
-    .CreateLogger();
+LoggerConfig.Configure();
 
 try
 {
