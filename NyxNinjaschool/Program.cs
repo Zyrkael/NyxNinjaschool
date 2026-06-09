@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using NyxNinjaschool.Config;
+using Serilog;
 using System;
 using System.IO;
 
@@ -9,11 +10,31 @@ var builder = new ConfigurationBuilder()
 
 IConfiguration config = builder.Build();
 
-// Class binding
-ServerConfig serverConfig = config.GetSection("ServerConfig").Get<ServerConfig>() ?? new ServerConfig();
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("logs/nyx-ninja-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
-Console.WriteLine("========================");
-Console.WriteLine("Server Configuration (Class Binding)");
-Console.WriteLine($"Port: {serverConfig.Port}");
-Console.WriteLine($"Max Players: {serverConfig.MaxPlayers}");
-Console.WriteLine("========================");
+try
+{
+    Log.Information("Starting Nyx Ninjaschool Server...");
+
+    // Class binding
+    ServerConfig serverConfig = config.GetSection("ServerConfig").Get<ServerConfig>() ?? new ServerConfig();
+
+    Log.Information("Server Configuration Loaded");
+    Log.Information("Port: {Port}", serverConfig.Port);
+    Log.Information("Max Players: {MaxPlayers}", serverConfig.MaxPlayers);
+    
+    Log.Information("Initialization complete.");
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Server start-up failed");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
