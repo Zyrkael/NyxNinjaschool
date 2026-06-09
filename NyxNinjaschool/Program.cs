@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using NyxNinjaschool.Config;
 using System;
 using System.IO;
 
@@ -16,9 +17,3 @@ Console.WriteLine("Server Configuration (Class Binding)");
 Console.WriteLine($"Port: {serverConfig.Port}");
 Console.WriteLine($"Max Players: {serverConfig.MaxPlayers}");
 Console.WriteLine("========================");
-
-public class ServerConfig
-{
-    public int Port { get; set; }
-    public int MaxPlayers { get; set; }
-}
