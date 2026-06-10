@@ -5,14 +5,17 @@ using Serilog.Events;
 using System;
 using System.IO;
 
+var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production";
+
 var builder = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true);
 
 IConfiguration config = builder.Build();
 
 // Configure Serilog to separate logs by level
-LoggerConfig.Configure();
+LoggerConfig.Configure(LogMode.Text);
 
 try
 {
@@ -26,6 +29,9 @@ try
     Log.Information("Max Players: {MaxPlayers}", serverConfig.MaxPlayers);
     
     Log.Information("Initialization complete.");
+    
+    Log.Information("Press Enter to exit...");
+    Console.ReadLine();
 }
 catch (Exception ex)
 {
