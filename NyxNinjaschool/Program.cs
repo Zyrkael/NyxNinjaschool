@@ -1,9 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using NyxNinjaschool.Config;
 using Serilog;
-using Serilog.Events;
-using System;
-using System.IO;
 
 var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production";
 
@@ -27,9 +24,9 @@ try
     Log.Information("Server Configuration Loaded");
     Log.Information("Port: {Port}", serverConfig.Port);
     Log.Information("Max Players: {MaxPlayers}", serverConfig.MaxPlayers);
-    
+
     Log.Information("Initialization complete.");
-    
+
     Log.Information("Press Enter to exit...");
     Console.ReadLine();
 }
