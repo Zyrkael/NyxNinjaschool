@@ -157,4 +157,39 @@ public static partial class StringUtils
             return false; // Trả về false nếu hash không đúng định dạng BCrypt
         }
     }
+
+    /// <summary>
+    /// Định dạng một số nguyên (long) thành chuỗi số phân cách hàng nghìn theo chuẩn Việt Nam (dấu chấm).
+    /// </summary>
+    /// <param name="number">Số cần định dạng (ví dụ: 1000000).</param>
+    /// <returns>Chuỗi đã định dạng (ví dụ: "1.000.000").</returns>
+    public static string FormatCurrency(long number)
+    {
+        // "N0" định dạng số với dấu phân cách hàng nghìn và 0 chữ số thập phân.
+        // Dùng CultureInfo "vi-VN" để dấu phân cách là dấu chấm (.).
+        return number.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+    }
+
+    /// <summary>
+    /// Kiểm tra xem một chuỗi có chứa mẫu khớp với biểu thức chính quy (Regex) hay không.
+    /// </summary>
+    /// <param name="str">Chuỗi đầu vào cần kiểm tra.</param>
+    /// <param name="regex">Biểu thức chính quy (Regex pattern).</param>
+    /// <returns>True nếu tìm thấy chuỗi khớp với pattern, ngược lại False.</returns>
+    public static bool CheckString(string str, string regex)
+    {
+        if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(regex))
+        {
+            return false;
+        }
+
+        try
+        {
+            return Regex.IsMatch(str, regex);
+        }
+        catch
+        {
+            return false; // Regex không hợp lệ
+        }
+    }
 }

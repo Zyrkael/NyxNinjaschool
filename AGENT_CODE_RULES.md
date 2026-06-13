@@ -25,6 +25,7 @@ These rules define the coding standards, formatting, and performance guidelines 
 ## 4. Formatting and Structure
 - **Braces (Allman Style):** Always place curly braces `{` and `}` on a new line.
 - **Code Preservation:** Do not randomly delete existing comments, docstrings, or code unless explicitly instructed or directly related to the fix.
+- **Documentation:** Do not include comments comparing C# code to Java equivalents (e.g., `Tương đương với ... trong Java`). Write documentation focused solely on the C# context.
 - **Early Returns:** Keep the "happy path" unindented by returning early when encountering invalid arguments or edge cases.
 - **Clean Code & IDE Warnings:**
   - Remove redundant field initializers (e.g., initializing to `0`, `false`, or default enum values).
