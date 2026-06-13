@@ -4,8 +4,8 @@ using Serilog;
 namespace NyxNinjaschool.Utils;
 
 /// <summary>
-/// Wrapper class cho Serilog để giúp việc chuyển đổi (port) code từ Java sang C# dễ dàng hơn.
-/// Các hàm được mô phỏng theo cấu trúc hàm Log.java cũ.
+/// Lớp tiện ích quản lý và cung cấp các phương thức ghi log cho toàn hệ thống.
+/// Đóng vai trò là wrapper cho Serilog nhằm chuẩn hóa việc ghi log.
 /// </summary>
 public static class NinjaLog
 {

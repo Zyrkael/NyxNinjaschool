@@ -26,7 +26,14 @@ These rules define the coding standards, formatting, and performance guidelines 
 - **Braces (Allman Style):** Always place curly braces `{` and `}` on a new line.
 - **Code Preservation:** Do not randomly delete existing comments, docstrings, or code unless explicitly instructed or directly related to the fix.
 - **Early Returns:** Keep the "happy path" unindented by returning early when encountering invalid arguments or edge cases.
+- **Clean Code & IDE Warnings:**
+  - Remove redundant field initializers (e.g., initializing to `0`, `false`, or default enum values).
+  - Use the ternary operator (`?:`) instead of simple `if/else` blocks when returning/assigning values or calling methods with different arguments.
+  - Avoid redundant conditional access (`?.`) on variables/fields guaranteed to be non-null by nullable reference type annotations (e.g., `readonly` fields initialized in constructors).
 
 ## 5. Security
 - Never hardcode sensitive information (secrets, keys, passwords). Use `appsettings.json` or environment variables (via `IConfiguration`).
 - Use standardized security libraries (e.g., `BCrypt.Net-Next`) for cryptography and hashing instead of rolling out custom logic.
+
+## 6. Common Pitfalls & Ambiguities
+- **Ambiguous Types:** When using types with common names like `Timer` in projects with `<ImplicitUsings>enable</ImplicitUsings>` (which includes `System.Threading`), fully qualify the type (e.g., `System.Timers.Timer`) or use a using alias (`using Timer = System.Timers.Timer;`) to prevent ambiguity errors between `System.Threading.Timer` and `System.Timers.Timer`.
