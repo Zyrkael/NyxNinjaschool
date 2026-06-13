@@ -12,9 +12,14 @@ public static partial class StringUtils
     [GeneratedRegex(@"\$\{([a-zA-Z0-9.]+)\}")]
     private static partial Regex FormatRegex();
 
-    private static readonly ConcurrentDictionary<(Type, string), MemberInfo[]?> _pathCache = new();
+    private static readonly ConcurrentDictionary<(Type, string), MemberInfo[]?> PathCache = new();
 
-    // 1. Hàm format chuỗi theo thuộc tính của Object
+    /// <summary>
+    /// Thay thế các chuỗi dạng ${PropertyName} hoặc ${Property.SubProperty} bằng giá trị tương ứng từ đối tượng cung cấp.
+    /// </summary>
+    /// <param name="format">Chuỗi định dạng (vd: "Hello ${User.Name}").</param>
+    /// <param name="obj">Đối tượng chứa dữ liệu để thay thế.</param>
+    /// <returns>Chuỗi đã được định dạng với các giá trị thực tế.</returns>
     public static string Format(string format, object? obj)
     {
         if (string.IsNullOrEmpty(format) || obj is null) return format;
@@ -27,12 +32,17 @@ public static partial class StringUtils
         });
     }
 
-    // 2. Hàm bổ trợ lấy thuộc tính (Reflection) hỗ trợ dấu chấm lồng nhau - Đã tối ưu bằng Cache
+    /// <summary>
+    /// Lấy giá trị của thuộc tính hoặc trường từ một đối tượng (sử dụng Reflection Cache) hỗ trợ truy cập lồng nhau bằng dấu chấm.
+    /// </summary>
+    /// <param name="name">Tên hoặc đường dẫn thuộc tính (vd: "Address.City").</param>
+    /// <param name="obj">Đối tượng gốc.</param>
+    /// <returns>Giá trị của thuộc tính tương ứng, hoặc null nếu không tìm thấy.</returns>
     private static object? GetField(string name, object? obj)
     {
         if (obj == null) return null;
 
-        var members = _pathCache.GetOrAdd((obj.GetType(), name), key =>
+        var members = PathCache.GetOrAdd((obj.GetType(), name), key =>
         {
             var (type, path) = key;
             var parts = path.Split('.');
@@ -85,14 +95,23 @@ public static partial class StringUtils
         return currentObj;
     }
 
-    // 3. Hàm lặp ký tự (C# đã hỗ trợ sẵn trong Constructor của String)
+    /// <summary>
+    /// Tạo một chuỗi bằng cách lặp lại ký tự đã cho với số lượng chỉ định.
+    /// </summary>
+    /// <param name="c">Ký tự cần lặp.</param>
+    /// <param name="count">Số lượng ký tự trong chuỗi kết quả.</param>
+    /// <returns>Chuỗi kết quả.</returns>
     public static string Repeat(char c, int count)
     {
         if (count <= 0) return string.Empty;
         return new string(c, count);
     }
 
-    // 4. Hàm xóa dấu tiếng Việt - Đã tối ưu bằng Span
+    /// <summary>
+    /// Loại bỏ toàn bộ dấu (thanh điệu) khỏi chuỗi tiếng Việt.
+    /// </summary>
+    /// <param name="str">Chuỗi tiếng Việt có dấu.</param>
+    /// <returns>Chuỗi tiếng Việt không dấu.</returns>
     public static string RemoveAccent(string str)
     {
         if (string.IsNullOrEmpty(str)) return str;
@@ -116,7 +135,12 @@ public static partial class StringUtils
         return new string(span[..len]).Normalize(NormalizationForm.FormC);
     }
 
-    // 5. Hàm kiểm tra mật khẩu BCrypt
+    /// <summary>
+    /// So sánh mật khẩu dạng văn bản thô với chuỗi mã hóa BCrypt xem có khớp nhau hay không.
+    /// </summary>
+    /// <param name="hashed">Chuỗi mã hóa BCrypt.</param>
+    /// <param name="plaintext">Mật khẩu dạng văn bản thô do người dùng nhập.</param>
+    /// <returns>True nếu mật khẩu chính xác, ngược lại False.</returns>
     public static bool CheckPassword(string hashed, string plaintext)
     {
         if (string.IsNullOrEmpty(hashed) || string.IsNullOrEmpty(plaintext))
