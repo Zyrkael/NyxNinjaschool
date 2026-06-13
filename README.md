@@ -38,3 +38,4 @@ The project includes several utility classes under the `NyxNinjaschool.Utils` na
 - **`TimeUtils`**: Handles time-related logic, such as getting the current time in milliseconds since the Unix epoch and checking elapsed time for cooldowns or delays.
 - **`ProgressBarUtils`**: Renders an animated and interactive console progress bar.
 - **`StringUtils`**: Provides string manipulation methods, including string formatting with reflection caching (`${Property.SubProperty}`), Vietnamese accent removal, character repetition, and BCrypt password verification.
+- **`NinjaUtils`**: Provides thread-safe random generation methods (`NextInt`, `NextDouble`, `RandomElement`) utilizing `Random.Shared`.
