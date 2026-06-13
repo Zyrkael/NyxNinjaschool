@@ -192,4 +192,54 @@ public static partial class StringUtils
             return false; // Regex không hợp lệ
         }
     }
+
+    /// <summary>
+    /// Thay thế các phần tử trong chuỗi khớp với biểu thức chính quy (Regex) bằng chuỗi mới.
+    /// </summary>
+    /// <param name="text">Chuỗi đầu vào.</param>
+    /// <param name="regex">Biểu thức chính quy (Regex pattern) cần tìm.</param>
+    /// <param name="replacement">Chuỗi sẽ thay thế.</param>
+    /// <returns>Chuỗi sau khi được thay thế, hoặc chuỗi gốc nếu regex không hợp lệ.</returns>
+    public static string Replace(string text, string regex, string replacement)
+    {
+        if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(regex))
+        {
+            return text ?? string.Empty;
+        }
+
+        try
+        {
+            return Regex.Replace(text, regex, replacement ?? string.Empty);
+        }
+        catch
+        {
+            return text; // Regex sai cú pháp
+        }
+    }
+
+    /// <summary>
+    /// Kiểm tra xem một chuỗi có phải là số nguyên (long) hợp lệ hay không.
+    /// </summary>
+    /// <param name="str">Chuỗi cần kiểm tra.</param>
+    /// <returns>True nếu chuỗi là số hợp lệ, ngược lại False.</returns>
+    public static bool IsNumericLong(string str)
+    {
+        if (string.IsNullOrWhiteSpace(str)) return false;
+        
+        // Sử dụng TryParse để kiểm tra hiệu quả hơn, không sinh ra Exception tốn tài nguyên
+        return long.TryParse(str, out _);
+    }
+
+    /// <summary>
+    /// Kiểm tra xem một chuỗi có phải là số nguyên (int) hợp lệ hay không.
+    /// </summary>
+    /// <param name="str">Chuỗi cần kiểm tra.</param>
+    /// <returns>True nếu chuỗi là số hợp lệ, ngược lại False.</returns>
+    public static bool IsNumericInt(string str)
+    {
+        if (string.IsNullOrWhiteSpace(str)) return false;
+        
+        // Sử dụng TryParse để kiểm tra hiệu quả hơn, không sinh ra Exception tốn tài nguyên
+        return int.TryParse(str, out _);
+    }
 }
