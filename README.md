@@ -26,8 +26,15 @@ dotnet run
 
 ## Logging
 
-The project uses Serilog. Logs are output to the console and also separated by log level into daily rolling files under the `logs/` directory:
-- `info/`
-- `warning/`
-- `error/`
-- `debug/`
+The project uses Serilog. Logs are output to the console and also separated by date and log level into daily rolling files under the `logs/` directory. The structure is `logs/yyyy-MM-dd/<level>.log` (e.g., `info.log`, `warning.log`, `error.log`, `debug.log`).
+
+Logging configuration supports both Text and JSON modes via `LoggerConfig`. The `NinjaLogUtils` class is provided as a static wrapper for easy and standardized logging across the system.
+
+## Utilities
+
+The project includes several utility classes under the `NyxNinjaschool.Utils` namespace:
+
+- **`NinjaLogUtils`**: A static wrapper for Serilog, providing simple and consistent logging methods (`Info`, `Warn`, `Error`, `Debug`, `Fatal`).
+- **`TimeUtils`**: Handles time-related logic, such as getting the current time in milliseconds since the Unix epoch and checking elapsed time for cooldowns or delays.
+- **`ProgressBarUtils`**: Renders an animated and interactive console progress bar.
+- **`StringUtils`**: Provides string manipulation methods, including string formatting with reflection caching (`${Property.SubProperty}`), Vietnamese accent removal, character repetition, and BCrypt password verification.
