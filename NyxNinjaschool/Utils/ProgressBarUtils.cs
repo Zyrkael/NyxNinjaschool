@@ -1,6 +1,6 @@
 namespace NyxNinjaschool.Utils;
 
-public class ProgressBar : IDisposable
+public class ProgressBarUtils : IDisposable
 {
     private enum ProgressStatus
     {
@@ -22,7 +22,7 @@ public class ProgressBar : IDisposable
     private int _lastRenderedTextLength;
     private readonly object _lockObj = new object();
 
-    public ProgressBar(string taskName, double maxValue)
+    public ProgressBarUtils(string taskName, double maxValue)
     {
         _taskName = taskName;
         _maxValue = maxValue;

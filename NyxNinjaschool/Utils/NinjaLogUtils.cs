@@ -7,7 +7,7 @@ namespace NyxNinjaschool.Utils;
 /// Lớp tiện ích quản lý và cung cấp các phương thức ghi log cho toàn hệ thống.
 /// Đóng vai trò là wrapper cho Serilog nhằm chuẩn hóa việc ghi log.
 /// </summary>
-public static class NinjaLog
+public static class NinjaLogUtils
 {
     // Info Level Logs
     public static void Info(string message) => Log.Information(message);
